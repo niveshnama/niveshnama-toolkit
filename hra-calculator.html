@@ -1,0 +1,91 @@
+<!-- hra-calculator.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HRA Exemption Calculator – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    input, select {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏠 HRA Exemption Calculator</h1>
+  <p>Estimate how much HRA you can claim as exempt under Section 10(13A).</p>
+
+  <label>Basic Salary (₹):</label>
+  <input type="number" id="basic" placeholder="e.g. 500000" />
+
+  <label>HRA Received (₹):</label>
+  <input type="number" id="hra" placeholder="e.g. 200000" />
+
+  <label>Rent Paid (₹):</label>
+  <input type="number" id="rent" placeholder="e.g. 150000" />
+
+  <label>Do you live in a metro city?</label>
+  <select id="metro">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+
+  <button onclick="calculateHRA()">Calculate Exemption</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculateHRA() {
+      const basic = parseFloat(document.getElementById('basic').value);
+      const hra = parseFloat(document.getElementById('hra').value);
+      const rent = parseFloat(document.getElementById('rent').value);
+      const isMetro = document.getElementById('metro').value === 'yes';
+
+      if (!basic || !hra || !rent) {
+        alert('Please fill all fields!');
+        return;
+      }
+
+      const rentExcess = rent - (0.1 * basic);
+      const percentSalary = isMetro ? 0.5 * basic : 0.4 * basic;
+      const hraExempt = Math.min(hra, rentExcess, percentSalary);
+
+      const exemption = hraExempt > 0 ? hraExempt : 0;
+
+      document.getElementById('result').innerHTML = `
+        <strong>📊 HRA Exemption:</strong><br>
+        Maximum Exempted: <strong>₹${exemption.toFixed(0)}</strong><br>
+        Taxable HRA: ₹${(hra - exemption).toFixed(0)}
+      `;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

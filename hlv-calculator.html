@@ -1,0 +1,81 @@
+<!-- hlv-calculator.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HLV Insurance Calculator – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛡️ HLV (Term Insurance) Calculator</h1>
+  <p>Estimate how much life insurance coverage you may need based on your income & responsibilities.</p>
+
+  <label>Annual Income (₹):</label>
+  <input type="number" id="income" placeholder="e.g. 600000" />
+
+  <label>Current Age:</label>
+  <input type="number" id="age" placeholder="e.g. 30" />
+
+  <label>Retirement Age:</label>
+  <input type="number" id="retirement" placeholder="e.g. 60" />
+
+  <button onclick="calculateHLV()">Calculate</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculateHLV() {
+      const income = parseFloat(document.getElementById('income').value);
+      const age = parseFloat(document.getElementById('age').value);
+      const retirement = parseFloat(document.getElementById('retirement').value);
+
+      if (!income || !age || !retirement || retirement <= age) {
+        alert('Please enter valid inputs');
+        return;
+      }
+
+      const workingYears = retirement - age;
+      const hlv = income * workingYears;
+
+      document.getElementById('result').innerHTML = `
+        <strong>📊 HLV Estimate:</strong><br>
+        Working Years Remaining: ${workingYears}<br>
+        Recommended Insurance Cover: <strong>₹${hlv.toLocaleString()}</strong>
+      `;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

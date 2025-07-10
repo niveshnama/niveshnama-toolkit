@@ -1,0 +1,89 @@
+<!-- itr-form-selector.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITR Form Selector Tool – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📄 ITR Form Selector Tool</h1>
+  <p>Find out which ITR Form is applicable to you for FY 2024-25.</p>
+
+  <label>Select Your Income Source:</label>
+  <select id="incomeType">
+    <option value="">-- Select --</option>
+    <option value="salary">Only Salary / Pension</option>
+    <option value="salary-housing">Salary + One House Property + Interest</option>
+    <option value="business">Business/Profession Income</option>
+    <option value="capitalGains">Capital Gains or Multiple Sources</option>
+    <option value="foreign">Foreign Assets or NRIs</option>
+  </select>
+
+  <button onclick="suggestITR()">Suggest ITR Form</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function suggestITR() {
+      const type = document.getElementById("incomeType").value;
+      let suggestion = "";
+
+      switch (type) {
+        case "salary":
+          suggestion = "✅ You should file: ITR-1 (Sahaj)";
+          break;
+        case "salary-housing":
+          suggestion = "✅ You should file: ITR-2";
+          break;
+        case "business":
+          suggestion = "✅ You should file: ITR-3 or ITR-4 (if presumptive)";
+          break;
+        case "capitalGains":
+          suggestion = "✅ You should file: ITR-2 or ITR-3";
+          break;
+        case "foreign":
+          suggestion = "✅ You should file: ITR-2 or ITR-3 (Check disclosure requirements)";
+          break;
+        default:
+          suggestion = "❌ Please select your income type.";
+      }
+
+      document.getElementById("result").innerHTML = suggestion;
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>

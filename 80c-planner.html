@@ -1,0 +1,82 @@
+<!-- 80c-planner.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>80C Investment Planner – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 80C Investment Planner</h1>
+  <p>Track how much of your ₹1.5 lakh 80C limit is utilized.</p>
+
+  <label>LIC Premium (₹):</label>
+  <input type="number" id="lic" placeholder="e.g. 20000" />
+
+  <label>PF Contribution (₹):</label>
+  <input type="number" id="pf" placeholder="e.g. 30000" />
+
+  <label>ELSS Mutual Funds (₹):</label>
+  <input type="number" id="elss" placeholder="e.g. 25000" />
+
+  <label>Tuition Fees (₹):</label>
+  <input type="number" id="fees" placeholder="e.g. 40000" />
+
+  <button onclick="calculate80C()">Calculate</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculate80C() {
+      const lic = parseFloat(document.getElementById("lic").value) || 0;
+      const pf = parseFloat(document.getElementById("pf").value) || 0;
+      const elss = parseFloat(document.getElementById("elss").value) || 0;
+      const fees = parseFloat(document.getElementById("fees").value) || 0;
+
+      const total = lic + pf + elss + fees;
+      const eligible = Math.min(total, 150000);
+      const remaining = 150000 - eligible;
+
+      document.getElementById("result").innerHTML = `
+        <strong>📊 80C Summary:</strong><br>
+        Total Entered: ₹${total.toFixed(0)}<br>
+        Eligible under 80C: ₹${eligible.toFixed(0)}<br>
+        ${remaining > 0 ? `Still invest ₹${remaining.toFixed(0)} to maximize 80C benefit.` : "🎉 You’ve fully utilized the ₹1.5L 80C limit!"}
+      `;
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>

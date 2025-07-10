@@ -1,0 +1,92 @@
+<!-- portfolio-tracker.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mutual Fund Portfolio Tracker – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 900px;
+      margin: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #1e3a8a;
+      color: white;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .add-row {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Mutual Fund Portfolio Tracker</h1>
+  <p>Track your mutual fund investments with purchase amount, NAV and units.</p>
+
+  <div class="add-row">
+    <input type="text" id="fund" placeholder="Fund Name" />
+    <input type="number" id="amount" placeholder="Investment Amount (₹)" />
+    <input type="number" id="nav" placeholder="NAV at Purchase" />
+    <button onclick="addRow()">➕ Add to Portfolio</button>
+  </div>
+
+  <table id="portfolio">
+    <thead>
+      <tr>
+        <th>Fund</th>
+        <th>Invested (₹)</th>
+        <th>NAV</th>
+        <th>Units</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    function addRow() {
+      const fund = document.getElementById('fund').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+      const nav = parseFloat(document.getElementById('nav').value);
+
+      if (!fund || !amount || !nav) {
+        alert('Please enter all fields');
+        return;
+      }
+
+      const units = amount / nav;
+      const row = `<tr><td>${fund}</td><td>₹${amount.toFixed(2)}</td><td>${nav.toFixed(2)}</td><td>${units.toFixed(2)}</td></tr>`;
+      document.querySelector('#portfolio tbody').innerHTML += row;
+
+      document.getElementById('fund').value = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('nav').value = '';
+    }
+  </script>
+</body>
+</html>

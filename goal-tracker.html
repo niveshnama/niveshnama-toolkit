@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goal Tracker Tool – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #1e40af;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e0fce7;
+      border-left: 5px solid #22c55e;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Goal Tracker Tool</h1>
+
+  <label for="goal">Goal Name:</label>
+  <input type="text" id="goal" placeholder="e.g. Child's Education">
+
+  <label for="amount">Goal Amount (₹):</label>
+  <input type="number" id="amount" placeholder="e.g. 1000000">
+
+  <label for="years">Time to Goal (Years):</label>
+  <input type="number" id="years" placeholder="e.g. 8">
+
+  <label for="rate">Expected Return (% per year):</label>
+  <input type="number" id="rate" placeholder="e.g. 12">
+
+  <button onclick="calculateGoalSIP()">Calculate Monthly SIP</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculateGoalSIP() {
+      const goal = document.getElementById('goal').value || 'your goal';
+      const amount = parseFloat(document.getElementById('amount').value);
+      const years = parseFloat(document.getElementById('years').value);
+      const rate = parseFloat(document.getElementById('rate').value) / 12 / 100;
+      const months = years * 12;
+
+      const sip = (amount * rate) / (Math.pow(1 + rate, months) - 1);
+
+      const resultBox = document.getElementById('result');
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <h3>📋 Plan for: <span style=\"color:#15803d;\">${goal}</span></h3>
+        <p><strong>Required Monthly SIP:</strong> ₹${Math.round(sip).toLocaleString()}</p>
+        <p style=\"font-size:0.9rem;color:#475569;\">*Based on compound interest formula. Assumes consistent investment and fixed return rate.</p>
+      `;
+    }
+  </script>
+</body>
+</html>

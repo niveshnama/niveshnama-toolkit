@@ -1,91 +1,126 @@
-<!-- retirement-calculator.html | Niveshnama Tool -->
+<!-- retirement-planning-guide.html | Niveshnama Exclusive Article -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Retirement Calculator – Niveshnama</title>
+  <title>Retirement Planning in India – Niveshnama Expert Guide 2025</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f9fafb;
       color: #1e293b;
-      padding: 30px;
-      max-width: 800px;
+      padding: 40px 20px;
+      max-width: 900px;
       margin: auto;
+      line-height: 1.8;
     }
-    input, select {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #cbd5e1;
+    h1, h2, h3 {
+      color: #1e3a8a;
     }
-    button {
-      padding: 12px 20px;
-      background-color: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .result {
-      margin-top: 20px;
+    .highlight {
       background: #e0f2fe;
-      padding: 20px;
+      padding: 15px 20px;
+      border-left: 5px solid #0ea5e9;
+      margin: 30px 0;
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: #1e3a8a;
+      color: #fff;
+    }
+    a.button {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #1e3a8a;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 30px 0;
+    }
+    iframe {
+      margin-top: 40px;
+      width: 100%;
+      min-height: 650px;
+      border: none;
       border-radius: 8px;
+    }
+    ul li {
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>🏖️ Retirement Calculator</h1>
-  <p>Estimate how much you’ll need to retire peacefully and how much you should invest today.</p>
 
-  <label>Current Age:</label>
-  <input type="number" id="age" placeholder="e.g. 30">
+  <h1>🏖️ Retirement Planning in India – The Complete Guide (2025)</h1>
+  <p>
+    Retirement is not an age — it’s a financial freedom milestone. Whether you're 30 or 50, the sooner you plan, the better your future. This guide by <strong>Niveshnama</strong> helps you calculate how much you need, how to save, and how to grow your wealth securely for your golden years.
+  </p>
 
-  <label>Retirement Age:</label>
-  <input type="number" id="retireAge" placeholder="e.g. 60">
+  <div class="highlight">
+    💡 <strong>Goal:</strong> Build a retirement corpus that ensures a peaceful, independent, inflation-proof life after 60.
+  </div>
 
-  <label>Monthly Expenses (₹):</label>
-  <input type="number" id="expenses" placeholder="e.g. 30000">
+  <h2>📊 How Much Retirement Corpus Do You Need?</h2>
+  <p>It depends on your lifestyle, expenses, medical needs, and inflation. Use this simple formula:</p>
 
-  <label>Expected Inflation (%):</label>
-  <input type="number" id="inflation" value="6">
+  <ul>
+    <li>🧮 Annual Expense × 25 = Ideal Retirement Corpus</li>
+    <li>Example: ₹6L yearly expense × 25 = ₹1.5 Crore corpus</li>
+  </ul>
 
-  <label>Expected Return (%):</label>
-  <input type="number" id="returns" value="12">
+  <a class="button" href="retirement-calculator.html" target="_blank">
+    🧮 Calculate Your Retirement Corpus
+  </a>
 
-  <button onclick="calculate()">Calculate</button>
+  <h2>🧮 Use Our Retirement Calculator</h2>
+  <p>Project your retirement needs in 5 minutes:</p>
+  <iframe src="https://niveshnama.github.io/niveshnama-toolkit/retirement-calculator.html"></iframe>
 
-  <div class="result" id="result" style="display:none;"></div>
+  <h2>🛠️ Building the Retirement Plan</h2>
+  <ul>
+    <li>✅ Start SIPs in Diversified Equity Mutual Funds</li>
+    <li>✅ Add NPS and PPF for tax-advantaged corpus</li>
+    <li>✅ Ensure you have Health + Term Insurance</li>
+    <li>✅ Review & rebalance every year after 45</li>
+  </ul>
 
-  <script>
-    function calculate() {
-      const age = parseInt(document.getElementById("age").value);
-      const retireAge = parseInt(document.getElementById("retireAge").value);
-      const expenses = parseFloat(document.getElementById("expenses").value);
-      const inflation = parseFloat(document.getElementById("inflation").value) / 100;
-      const returns = parseFloat(document.getElementById("returns").value) / 100;
+  <h2>🤝 How Niveshnama Helps You Retire Rich</h2>
+  <ul>
+    <li>📈 Customized SIP planning to reach corpus goal</li>
+    <li>🧾 Insurance + Tax integration in the same plan</li>
+    <li>🧠 Portfolio tracker & regular rebalancing</li>
+    <li>📞 One-click access to certified financial experts</li>
+  </ul>
 
-      const yearsToRetire = retireAge - age;
-      const inflatedExpense = expenses * Math.pow(1 + inflation, yearsToRetire);
-      const annualNeed = inflatedExpense * 12;
-      const corpusRequired = annualNeed * 25;
+  <a class="button" href="https://wa.me/917571990152" target="_blank">📞 Plan My Retirement Now</a>
 
-      const sipPerMonth = corpusRequired * (returns / 12) / (Math.pow(1 + (returns / 12), yearsToRetire * 12) - 1);
+  <h2>❓ FAQs</h2>
+  <p><strong>Q. Is ₹1 Cr enough for retirement?</strong><br>Depends on age, family size, and lifestyle. Use calculator to check.</p>
+  <p><strong>Q. Should I invest in annuity or mutual funds?</strong><br>A mix of SWP-based funds and annuities works best.</p>
+  <p><strong>Q. What if I start late?</strong><br>Better late than never — invest aggressively, reduce liabilities.</p>
 
-      document.getElementById("result").style.display = "block";
-      document.getElementById("result").innerHTML = `
-        <strong>📊 Retirement Plan Summary:</strong><br>
-        Years to Retirement: ${yearsToRetire} years<br>
-        Monthly Expenses at Retirement: ₹${inflatedExpense.toFixed(0)}<br>
-        Required Corpus: ₹${corpusRequired.toFixed(0)}<br>
-        <br>
-        <strong>💰 Recommended SIP:</strong> ₹${sipPerMonth.toFixed(0)} per month
-      `;
-    }
-  </script>
+  <hr style="margin:40px 0;border: none;border-top: 1px solid #e2e8f0;"/>
+
+  <h2>📬 Contact Niveshnama</h2>
+  <ul>
+    <li>📧 Email: <a href="mailto:niveshnama@gmail.com">niveshnama@gmail.com</a></li>
+    <li>📞 WhatsApp: <a href="https://wa.me/917571990152" target="_blank">+91 7571990152</a></li>
+    <li>🌐 Website: <a href="https://niveshnama.blogspot.com" target="_blank">niveshnama.blogspot.com</a></li>
+  </ul>
+  <p style="font-size:0.9rem;color:#64748b;">
+    Niveshnama is an AMFI & IRDA certified financial services platform dedicated to helping you achieve your retirement and wealth goals.
+  </p>
+
 </body>
 </html>

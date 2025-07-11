@@ -1,0 +1,91 @@
+<!-- retirement-calculator.html | Niveshnama Tool -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Retirement Calculator – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    input, select {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e0f2fe;
+      padding: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏖️ Retirement Calculator</h1>
+  <p>Estimate how much you’ll need to retire peacefully and how much you should invest today.</p>
+
+  <label>Current Age:</label>
+  <input type="number" id="age" placeholder="e.g. 30">
+
+  <label>Retirement Age:</label>
+  <input type="number" id="retireAge" placeholder="e.g. 60">
+
+  <label>Monthly Expenses (₹):</label>
+  <input type="number" id="expenses" placeholder="e.g. 30000">
+
+  <label>Expected Inflation (%):</label>
+  <input type="number" id="inflation" value="6">
+
+  <label>Expected Return (%):</label>
+  <input type="number" id="returns" value="12">
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculate() {
+      const age = parseInt(document.getElementById("age").value);
+      const retireAge = parseInt(document.getElementById("retireAge").value);
+      const expenses = parseFloat(document.getElementById("expenses").value);
+      const inflation = parseFloat(document.getElementById("inflation").value) / 100;
+      const returns = parseFloat(document.getElementById("returns").value) / 100;
+
+      const yearsToRetire = retireAge - age;
+      const inflatedExpense = expenses * Math.pow(1 + inflation, yearsToRetire);
+      const annualNeed = inflatedExpense * 12;
+      const corpusRequired = annualNeed * 25;
+
+      const sipPerMonth = corpusRequired * (returns / 12) / (Math.pow(1 + (returns / 12), yearsToRetire * 12) - 1);
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").innerHTML = `
+        <strong>📊 Retirement Plan Summary:</strong><br>
+        Years to Retirement: ${yearsToRetire} years<br>
+        Monthly Expenses at Retirement: ₹${inflatedExpense.toFixed(0)}<br>
+        Required Corpus: ₹${corpusRequired.toFixed(0)}<br>
+        <br>
+        <strong>💰 Recommended SIP:</strong> ₹${sipPerMonth.toFixed(0)} per month
+      `;
+    }
+  </script>
+</body>
+</html>

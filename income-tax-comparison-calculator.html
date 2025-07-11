@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Income Tax Comparison Calculator – Old vs New Regime</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 { color: #1e3a8a; }
+    label { display:block; margin-top:15px; font-weight:600; }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #1e40af;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      background: #e0f2fe;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #1e3a8a;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Income Tax Comparison – Old vs New Regime</h1>
+  <label>Annual Income (₹):</label>
+  <input type="number" id="income" placeholder="e.g. 1000000">
+
+  <label>80C Investments (PPF, ELSS, LIC):</label>
+  <input type="number" id="sec80c" placeholder="Max ₹1,50,000">
+
+  <label>80D (Health Insurance):</label>
+  <input type="number" id="sec80d" placeholder="e.g. ₹25,000">
+
+  <label>HRA Exemption (Eligible):</label>
+  <input type="number" id="hra" placeholder="e.g. ₹1,20,000">
+
+  <label>NPS (80CCD(1B)):</label>
+  <input type="number" id="nps" placeholder="Max ₹50,000">
+
+  <button onclick="calculateTax()">Compare Tax</button>
+
+  <div class="result" id="output" style="display:none;"></div>
+
+  <script>
+    function calculateOldRegime(income, d80c, d80d, hra, nps) {
+      const totalDeductions = Math.min(d80c, 150000) + Math.min(d80d, 100000) + hra + Math.min(nps, 50000);
+      const taxable = Math.max(income - totalDeductions, 0);
+      return computeSlabOld(taxable);
+    }
+
+    function calculateNewRegime(income) {
+      return computeSlabNew(income);
+    }
+
+    function computeSlabOld(taxable) {
+      let tax = 0;
+      if (taxable <= 250000) return 0;
+      if (taxable <= 500000) tax = (taxable - 250000) * 0.05;
+      else if (taxable <= 1000000) tax = 12500 + (taxable - 500000) * 0.2;
+      else tax = 112500 + (taxable - 1000000) * 0.3;
+      return tax;
+    }
+
+    function computeSlabNew(income) {
+      let slabs = [0, 300000, 600000, 900000, 1200000, 1500000];
+      let rates = [0, 0.05, 0.1, 0.15, 0.2, 0.3];
+      let tax = 0;
+      for (let i = 1; i < slabs.length; i++) {
+        if (income > slabs[i]) tax += (slabs[i] - slabs[i-1]) * rates[i];
+        else {
+          tax += (income - slabs[i-1]) * rates[i];
+          break;
+        }
+      }
+      if (income > 1500000) tax += (income - 1500000) * 0.3;
+      return tax;
+    }
+
+    function calculateTax() {
+      const income = parseFloat(document.getElementById('income').value);
+      const d80c = parseFloat(document.getElementById('sec80c').value || 0);
+      const d80d = parseFloat(document.getElementById('sec80d').value || 0);
+      const hra = parseFloat(document.getElementById('hra').value || 0);
+      const nps = parseFloat(document.getElementById('nps').value || 0);
+
+      const taxOld = calculateOldRegime(income, d80c, d80d, hra, nps);
+      const taxNew = calculateNewRegime(income);
+      const savings = Math.max(taxNew - taxOld, 0);
+
+      document.getElementById('output').style.display = 'block';
+      document.getElementById('output').innerHTML = `
+        <h3>📋 Summary:</h3>
+        <table>
+          <tr><th></th><th>Old Regime</th><th>New Regime</th></tr>
+          <tr><td>Gross Income</td><td>₹${income}</td><td>₹${income}</td></tr>
+          <tr><td>Total Deductions</td><td>₹${Math.min(d80c,150000) + Math.min(d80d,100000) + hra + Math.min(nps,50000)}</td><td>₹0</td></tr>
+          <tr><td>Taxable Income</td><td>₹${Math.max(income - (Math.min(d80c,150000) + Math.min(d80d,100000) + hra + Math.min(nps,50000)), 0)}</td><td>₹${income}</td></tr>
+          <tr><td>Total Tax</td><td><strong>₹${taxOld.toFixed(0)}</strong></td><td><strong>₹${taxNew.toFixed(0)}</strong></td></tr>
+          <tr><td colspan=\"3\" style=\"background:#dcfce7;color:#065f46;\"><strong>🎉 You Save ₹${savings.toFixed(0)} by choosing Old Regime</strong></td></tr>
+        </table>
+      `;
+    }
+  </script>
+</body>
+</html>

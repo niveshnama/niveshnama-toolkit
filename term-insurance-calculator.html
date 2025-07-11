@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Term Insurance Calculator – Niveshnama</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #1e40af;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e0f2fe;
+      border-left: 5px solid #0284c7;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛡️ Term Insurance Calculator</h1>
+
+  <label for="income">Annual Income (₹):</label>
+  <input type="number" id="income" placeholder="e.g. 600000">
+
+  <label for="age">Current Age:</label>
+  <input type="number" id="age" placeholder="e.g. 30">
+
+  <label for="retirement">Retirement Age:</label>
+  <input type="number" id="retirement" placeholder="e.g. 60">
+
+  <label for="existing">Existing Life Cover (if any):</label>
+  <input type="number" id="existing" placeholder="e.g. 0">
+
+  <button onclick="calculateHLV()">Calculate Term Cover</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function calculateHLV() {
+      const income = parseFloat(document.getElementById('income').value);
+      const age = parseFloat(document.getElementById('age').value);
+      const retirement = parseFloat(document.getElementById('retirement').value);
+      const existing = parseFloat(document.getElementById('existing').value);
+
+      const yearsLeft = retirement - age;
+      const hlv = income * yearsLeft;
+      const suggestedCover = Math.max(hlv - existing, 0);
+      const approxPremium = (suggestedCover / 1000) * 1.8; // ₹1.8 per ₹1000
+
+      const resultBox = document.getElementById('result');
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <h3>📋 Summary:</h3>
+        <p><strong>Suggested Term Cover:</strong> ₹${suggestedCover.toLocaleString()}</p>
+        <p><strong>Estimated Premium:</strong> ₹${Math.round(approxPremium).toLocaleString()} / year</p>
+        <p style="font-size: 0.9rem; color: #475569;">*Estimate based on HLV method. Premium may vary based on age, insurer & health.</p>
+      `;
+    }
+  </script>
+</body>
+</html>

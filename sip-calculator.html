@@ -1,85 +1,185 @@
-<!-- sip-calculator.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIP Calculator – Niveshnama</title>
+  <meta charset="UTF-8">
+  <title>Niveshnama SIP/SWP/STP Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      color: #1e293b;
+      background: linear-gradient(to right, #e0f7fa, #f1f8e9);
       padding: 30px;
-      max-width: 800px;
-      margin: auto;
+      color: #222;
     }
-    input, select {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-    button {
-      padding: 12px 20px;
-      background-color: #1e3a8a;
+    .tab-btn {
+      padding: 10px 20px;
+      background: #0072ff;
       color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 10px;
     }
-    .result {
-      margin-top: 20px;
-      background: #e0f2fe;
+    .tab-btn.active {
+      background: #0047ab;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      background: #ffffff;
       padding: 20px;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input, select {
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    label {
+      font-weight: 500;
+    }
+    .chart-container {
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <h1>📈 SIP Calculator</h1>
-  <p>Estimate your wealth creation by investing monthly.</p>
-  <label>Monthly Investment (₹):</label>
-  <input type="number" id="monthly" placeholder="e.g. 5000" />
 
-  <label>Expected Annual Return (%):</label>
-  <input type="number" id="rate" placeholder="e.g. 12" />
+<h2>Niveshnama SIP • SWP • STP Calculator</h2>
 
-  <label>Investment Duration (Years):</label>
-  <input type="number" id="years" placeholder="e.g. 10" />
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('sip')">SIP</button>
+  <button class="tab-btn" onclick="switchTab('swp')">SWP</button>
+  <button class="tab-btn" onclick="switchTab('stp')">STP</button>
+</div>
 
-  <button onclick="calculateSIP()">Calculate</button>
+<!-- SIP TAB -->
+<div id="sip" class="tab-content active">
+  <label>SIP Amount (₹):</label>
+  <input type="number" id="sipAmount" value="5000">
+  <label>Investment Period (years):</label>
+  <input type="number" id="sipYears" value="10">
+  <label>Expected Return (% per annum):</label>
+  <input type="number" id="sipReturn" value="12">
+  <button onclick="calculateSIP()">Calculate SIP</button>
+  <p id="sipResult"></p>
+  <div class="chart-container"><canvas id="sipChart"></canvas></div>
+</div>
 
-  <div class="result" id="result" style="display:none;"></div>
+<!-- SWP TAB -->
+<div id="swp" class="tab-content">
+  <label>Lump-sum Amount (₹):</label>
+  <input type="number" id="swpAmount" value="1000000">
+  <label>Withdrawal (monthly ₹):</label>
+  <input type="number" id="swpWithdraw" value="10000">
+  <label>Expected Return (% per annum):</label>
+  <input type="number" id="swpReturn" value="10">
+  <label>Period (years):</label>
+  <input type="number" id="swpYears" value="10">
+  <button onclick="calculateSWP()">Calculate SWP</button>
+  <p id="swpResult"></p>
+  <div class="chart-container"><canvas id="swpChart"></canvas></div>
+</div>
 
-  <script>
-    function calculateSIP() {
-      const monthly = parseFloat(document.getElementById('monthly').value);
-      const rate = parseFloat(document.getElementById('rate').value);
-      const years = parseFloat(document.getElementById('years').value);
+<!-- STP TAB -->
+<div id="stp" class="tab-content">
+  <label>Initial Amount (₹):</label>
+  <input type="number" id="stpAmount" value="500000">
+  <label>Monthly Transfer (₹):</label>
+  <input type="number" id="stpMonthly" value="25000">
+  <label>Duration (months):</label>
+  <input type="number" id="stpMonths" value="20">
+  <label>Growth Fund Return (%):</label>
+  <input type="number" id="stpReturn" value="12">
+  <button onclick="calculateSTP()">Calculate STP</button>
+  <p id="stpResult"></p>
+  <div class="chart-container"><canvas id="stpChart"></canvas></div>
+</div>
 
-      if (!monthly || !rate || !years) {
-        alert('Please fill all fields!');
-        return;
-      }
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.target.classList.add('active');
+}
 
-      const n = years * 12;
-      const r = rate / 12 / 100;
-      const futureValue = monthly * (((Math.pow(1 + r, n) - 1) / r) * (1 + r));
-      const invested = monthly * n;
-      const gain = futureValue - invested;
+function calculateSIP() {
+  let P = parseFloat(document.getElementById('sipAmount').value);
+  let r = parseFloat(document.getElementById('sipReturn').value) / 100 / 12;
+  let n = parseFloat(document.getElementById('sipYears').value) * 12;
+  let FV = P * (((Math.pow(1 + r, n)) - 1) / r) * (1 + r);
+  document.getElementById('sipResult').innerText = `Estimated Value: ₹${FV.toFixed(2)}`;
+  drawChart('sipChart', ['Invested', 'Gains'], [P * n, FV - (P * n)]);
+}
 
-      document.getElementById('result').innerHTML = `
-        <strong>📊 Results:</strong><br>
-        Total Invested: ₹${invested.toFixed(0)}<br>
-        Estimated Returns: ₹${gain.toFixed(0)}<br>
-        Final Corpus: <strong>₹${futureValue.toFixed(0)}</strong>
-      `;
-      document.getElementById('result').style.display = 'block';
+function calculateSWP() {
+  let A = parseFloat(document.getElementById('swpAmount').value);
+  let W = parseFloat(document.getElementById('swpWithdraw').value);
+  let r = parseFloat(document.getElementById('swpReturn').value) / 100 / 12;
+  let n = parseFloat(document.getElementById('swpYears').value) * 12;
+  let balance = A;
+  let totalWithdrawn = 0;
+  for (let i = 0; i < n; i++) {
+    balance *= (1 + r);
+    if (balance >= W) {
+      balance -= W;
+      totalWithdrawn += W;
+    } else {
+      totalWithdrawn += balance;
+      balance = 0;
+      break;
     }
-  </script>
+  }
+  document.getElementById('swpResult').innerText = `Total Withdrawn: ₹${totalWithdrawn.toFixed(2)}, Remaining: ₹${balance.toFixed(2)}`;
+  drawChart('swpChart', ['Withdrawn', 'Remaining'], [totalWithdrawn, balance]);
+}
+
+function calculateSTP() {
+  let A = parseFloat(document.getElementById('stpAmount').value);
+  let M = parseFloat(document.getElementById('stpMonthly').value);
+  let months = parseFloat(document.getElementById('stpMonths').value);
+  let r = parseFloat(document.getElementById('stpReturn').value) / 100 / 12;
+  let total = 0;
+  for (let i = 0; i < months; i++) {
+    let invest = M;
+    total += invest * Math.pow(1 + r, months - i);
+  }
+  document.getElementById('stpResult').innerText = `Projected Value: ₹${total.toFixed(2)}`;
+  drawChart('stpChart', ['Transferred', 'Growth'], [M * months, total - (M * months)]);
+}
+
+function drawChart(id, labels, data) {
+  const ctx = document.getElementById(id).getContext('2d');
+  if (window[id]) window[id].destroy();
+  window[id] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: ['#00bcd4', '#4caf50']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+}
+</script>
+
 </body>
 </html>

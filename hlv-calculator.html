@@ -1,81 +1,151 @@
-<!-- hlv-calculator.html -->
+<!-- hlv-calculator-premium.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HLV Insurance Calculator – Niveshnama</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      color: #1e293b;
-      padding: 30px;
-      max-width: 800px;
-      margin: auto;
-    }
-    input {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 12px 20px;
-      background-color: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .result {
-      margin-top: 20px;
-      background: #e0f2fe;
-      padding: 20px;
-      border-radius: 6px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLV Insurance Calculator – Niveshnama</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #fbbf24;
+  }
+  p {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #d1d5db;
+    margin-bottom: 25px;
+  }
+  label {
+    font-size: 0.9rem;
+    color: #f1f5f9;
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 15px;
+  }
+  input {
+    padding: 12px;
+    width: 100%;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  input:focus {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
+  .gauge-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .gauge {
+    width: 100%;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .gauge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+    width: 0%;
+    transition: width 0.6s ease;
+  }
+  .result {
+    margin-top: 15px;
+    font-size: 1rem;
+    text-align: center;
+    display: none;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+</style>
 </head>
 <body>
-  <h1>🛡️ HLV (Term Insurance) Calculator</h1>
-  <p>Estimate how much life insurance coverage you may need based on your income & responsibilities.</p>
+
+<div class="card">
+  <h1>🛡️ Premium HLV Calculator</h1>
+  <p>Real-time insurance cover estimation with visual gauge</p>
 
   <label>Annual Income (₹):</label>
-  <input type="number" id="income" placeholder="e.g. 600000" />
+  <input type="number" id="income" placeholder="e.g. 600000" oninput="calculateHLV()">
 
   <label>Current Age:</label>
-  <input type="number" id="age" placeholder="e.g. 30" />
+  <input type="number" id="age" placeholder="e.g. 30" oninput="calculateHLV()">
 
   <label>Retirement Age:</label>
-  <input type="number" id="retirement" placeholder="e.g. 60" />
+  <input type="number" id="retirement" placeholder="e.g. 60" oninput="calculateHLV()">
 
-  <button onclick="calculateHLV()">Calculate</button>
+  <div class="gauge-container">
+    <div class="gauge">
+      <div class="gauge-fill" id="gaugeFill"></div>
+    </div>
+  </div>
 
-  <div class="result" id="result" style="display:none;"></div>
+  <div class="result" id="result"></div>
+</div>
 
-  <script>
-    function calculateHLV() {
-      const income = parseFloat(document.getElementById('income').value);
-      const age = parseFloat(document.getElementById('age').value);
-      const retirement = parseFloat(document.getElementById('retirement').value);
+<script>
+function calculateHLV() {
+  const income = parseFloat(document.getElementById('income').value);
+  const age = parseFloat(document.getElementById('age').value);
+  const retirement = parseFloat(document.getElementById('retirement').value);
+  const resultEl = document.getElementById('result');
+  const gaugeFill = document.getElementById('gaugeFill');
 
-      if (!income || !age || !retirement || retirement <= age) {
-        alert('Please enter valid inputs');
-        return;
-      }
+  if (!income || !age || !retirement || retirement <= age) {
+    resultEl.style.display = 'none';
+    gaugeFill.style.width = '0%';
+    return;
+  }
 
-      const workingYears = retirement - age;
-      const hlv = income * workingYears;
+  const workingYears = retirement - age;
+  const hlv = income * workingYears;
 
-      document.getElementById('result').innerHTML = `
-        <strong>📊 HLV Estimate:</strong><br>
-        Working Years Remaining: ${workingYears}<br>
-        Recommended Insurance Cover: <strong>₹${hlv.toLocaleString()}</strong>
-      `;
-      document.getElementById('result').style.display = 'block';
-    }
-  </script>
+  // Gauge animation (max cover assumed 5 crore for scale)
+  const maxCover = 50000000;
+  let percentage = (hlv / maxCover) * 100;
+  if (percentage > 100) percentage = 100;
+
+  gaugeFill.style.width = percentage + '%';
+
+  resultEl.innerHTML = `
+    <strong>📊 HLV Estimate</strong><br>
+    Working Years Remaining: <b>${workingYears}</b><br>
+    Recommended Insurance Cover: <strong>₹${hlv.toLocaleString()}</strong>
+  `;
+  resultEl.style.display = 'block';
+}
+</script>
+
 </body>
 </html>

@@ -8,46 +8,87 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      color: #1e293b;
-      padding: 30px;
-      max-width: 800px;
+      background: transparent;
+      color: black;
+      padding: 20px;
+      max-width: 360px; /* sidebar friendly */
       margin: auto;
+    }
+    .calculator-box {
+      background: linear-gradient(145deg, rgba(0,191,165,0.85), rgba(0,150,136,0.85));
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border-radius: 15px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+    p {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #f0f0f0;
+    }
+    label {
+      font-weight: bold;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      display: block;
+      color: black;
     }
     input, select {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      font-size: 0.9rem;
+      box-sizing: border-box;
     }
     button {
-      padding: 12px 20px;
-      background-color: #1e3a8a;
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background: #004d40;
       color: white;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      border-radius: 8px;
       font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00695c;
     }
     .result {
-      margin-top: 20px;
-      background: #e0f2fe;
-      padding: 20px;
-      border-radius: 6px;
+      margin-top: 15px;
+      background: rgba(255,255,255,0.8);
+      color: black;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <h1>💰 Income Tax Calculator (FY 2025–26)</h1>
-  <p>Check your estimated tax liability under the new tax regime.</p>
+  <div class="calculator-box">
+    <h1>💰 Income Tax Calculator</h1>
+    <p>FY 2025–26 (New Regime)</p>
 
-  <label>Annual Income (₹):</label>
-  <input type="number" id="income" placeholder="e.g. 850000" />
+    <label>Annual Income (₹):</label>
+    <input type="number" id="income" placeholder="e.g. 850000" />
 
-  <button onclick="calculateTax()">Calculate Tax</button>
+    <button onclick="calculateTax()">Calculate Tax</button>
 
-  <div class="result" id="result" style="display:none;"></div>
+    <div class="result" id="result" style="display:none;"></div>
+  </div>
 
   <script>
     function calculateTax() {

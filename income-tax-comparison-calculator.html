@@ -7,55 +7,81 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      color: #1e293b;
+      background: #f0fdfa;
+      color: #000;
       padding: 20px;
       max-width: 900px;
       margin: auto;
     }
-    h1 { color: #1e3a8a; }
-    label { display:block; margin-top:15px; font-weight:600; }
+    h1 {
+      color: #064e3b;
+      text-align: center;
+      text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    }
+    label {
+      display:block;
+      margin-top:15px;
+      font-weight:600;
+    }
     input {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(0,0,0,0.2);
       border-radius: 6px;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
     }
     button {
       margin-top: 20px;
       padding: 12px 20px;
-      background: #1e40af;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      background: linear-gradient(145deg, #14b8a6, #0d9488);
+      color: black;
       font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 3px 3px 6px rgba(0,0,0,0.2),
+                  -3px -3px 6px rgba(255,255,255,0.4);
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.3),
+                  -4px -4px 8px rgba(255,255,255,0.5);
     }
     .result {
-      background: #e0f2fe;
-      margin-top: 25px;
+      background: rgba(20,184,166,0.25);
+      border-radius: 16px;
       padding: 20px;
-      border-radius: 8px;
+      margin-top: 25px;
+      backdrop-filter: blur(12px);
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1),
+                  inset -2px -2px 4px rgba(255,255,255,0.4);
     }
     table {
       margin-top: 20px;
       width: 100%;
       border-collapse: collapse;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      overflow: hidden;
     }
     th, td {
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(0,0,0,0.15);
       padding: 10px;
       text-align: center;
     }
     th {
-      background: #1e3a8a;
-      color: white;
+      background: linear-gradient(145deg, #0d9488, #14b8a6);
+      color: black;
     }
   </style>
 </head>
 <body>
   <h1>📊 Income Tax Comparison – Old vs New Regime</h1>
+  
   <label>Annual Income (₹):</label>
   <input type="number" id="income" placeholder="e.g. 1000000">
 
@@ -117,6 +143,11 @@
       const hra = parseFloat(document.getElementById('hra').value || 0);
       const nps = parseFloat(document.getElementById('nps').value || 0);
 
+      if (!income || income < 0) {
+        alert("Please enter valid income");
+        return;
+      }
+
       const taxOld = calculateOldRegime(income, d80c, d80d, hra, nps);
       const taxNew = calculateNewRegime(income);
       const savings = Math.max(taxNew - taxOld, 0);
@@ -130,7 +161,7 @@
           <tr><td>Total Deductions</td><td>₹${Math.min(d80c,150000) + Math.min(d80d,100000) + hra + Math.min(nps,50000)}</td><td>₹0</td></tr>
           <tr><td>Taxable Income</td><td>₹${Math.max(income - (Math.min(d80c,150000) + Math.min(d80d,100000) + hra + Math.min(nps,50000)), 0)}</td><td>₹${income}</td></tr>
           <tr><td>Total Tax</td><td><strong>₹${taxOld.toFixed(0)}</strong></td><td><strong>₹${taxNew.toFixed(0)}</strong></td></tr>
-          <tr><td colspan=\"3\" style=\"background:#dcfce7;color:#065f46;\"><strong>🎉 You Save ₹${savings.toFixed(0)} by choosing Old Regime</strong></td></tr>
+          <tr><td colspan="3" style="background:#bbf7d0;color:#065f46;"><strong>🎉 You Save ₹${savings.toFixed(0)} by choosing Old Regime</strong></td></tr>
         </table>
       `;
     }

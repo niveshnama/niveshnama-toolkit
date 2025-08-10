@@ -8,22 +8,28 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
-      color: #1e293b;
+      background: linear-gradient(135deg, #2ecc71, #1abc9c);
+      color: black;
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
       line-height: 1.8;
     }
     h1, h2, h3 {
-      color: #1e3a8a;
+      color: #0d3b66; /* Contrast heading color */
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+    }
+    .highlight, table, .button, iframe, ul, p, hr {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      padding: 15px 20px;
     }
     .highlight {
-      background: #e0f2fe;
-      padding: 15px 20px;
       border-left: 5px solid #0ea5e9;
       margin: 30px 0;
-      border-radius: 6px;
     }
     table {
       width: 100%;
@@ -31,29 +37,33 @@
       margin-top: 20px;
     }
     th, td {
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(0,0,0,0.1);
       padding: 12px;
       text-align: center;
     }
     th {
-      background: #1e3a8a;
-      color: #fff;
+      background: rgba(0,0,0,0.1);
+      color: black;
     }
     a.button {
       display: inline-block;
       padding: 12px 20px;
-      background: #1e3a8a;
-      color: #fff;
+      background: rgba(255, 255, 255, 0.4);
+      color: black;
       text-decoration: none;
       border-radius: 6px;
       margin: 30px 0;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    a.button:hover {
+      background: rgba(255, 255, 255, 0.6);
     }
     iframe {
       margin-top: 40px;
       width: 100%;
       min-height: 650px;
       border: none;
-      border-radius: 8px;
     }
     ul li {
       margin-bottom: 10px;
@@ -110,7 +120,7 @@
   <p><strong>Q. Should I invest in annuity or mutual funds?</strong><br>A mix of SWP-based funds and annuities works best.</p>
   <p><strong>Q. What if I start late?</strong><br>Better late than never — invest aggressively, reduce liabilities.</p>
 
-  <hr style="margin:40px 0;border: none;border-top: 1px solid #e2e8f0;"/>
+  <hr/>
 
   <h2>📬 Contact Niveshnama</h2>
   <ul>
@@ -118,7 +128,7 @@
     <li>📞 WhatsApp: <a href="https://wa.me/917571990152" target="_blank">+91 7571990152</a></li>
     <li>🌐 Website: <a href="https://niveshnama.blogspot.com" target="_blank">niveshnama.blogspot.com</a></li>
   </ul>
-  <p style="font-size:0.9rem;color:#64748b;">
+  <p style="font-size:0.9rem;color:black;">
     Niveshnama is an AMFI & IRDA certified financial services platform dedicated to helping you achieve your retirement and wealth goals.
   </p>
 

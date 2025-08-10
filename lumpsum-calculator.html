@@ -14,6 +14,15 @@
       max-width: 800px;
       margin: auto;
     }
+    h1 {
+      color: #0f766e; /* High contrast teal-green heading */
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    p {
+      text-align: center;
+      margin-bottom: 20px;
+    }
     input {
       padding: 10px;
       margin: 10px 0;
@@ -23,25 +32,40 @@
     }
     button {
       padding: 12px 20px;
-      background-color: #1e3a8a;
+      background-color: #0f766e;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
       margin-top: 10px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0d4f4a;
     }
     .result {
       margin-top: 20px;
-      background: #e0f2fe;
       padding: 20px;
-      border-radius: 6px;
+      border-radius: 12px;
+      color: black;
+      font-weight: 500;
+      background: linear-gradient(135deg, rgba(0, 255, 170, 0.25), rgba(0, 191, 255, 0.25));
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: none;
+      transform: translateY(0);
+      transition: all 0.3s ease-in-out;
+    }
+    .result.show {
+      transform: translateY(-5px);
     }
   </style>
 </head>
 <body>
   <h1>💼 Lumpsum Investment Calculator</h1>
-  <p>Calculate future value of your one-time investment.</p>
+  <p>Calculate the future value of your one-time investment.</p>
 
   <label>Investment Amount (₹):</label>
   <input type="number" id="amount" placeholder="e.g. 100000" />
@@ -54,7 +78,7 @@
 
   <button onclick="calculateLumpsum()">Calculate</button>
 
-  <div class="result" id="result" style="display:none;"></div>
+  <div class="result" id="result"></div>
 
   <script>
     function calculateLumpsum() {
@@ -70,13 +94,15 @@
       const futureValue = amount * Math.pow((1 + rate / 100), years);
       const gain = futureValue - amount;
 
-      document.getElementById('result').innerHTML = `
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
         <strong>📊 Results:</strong><br>
         Invested Amount: ₹${amount.toFixed(0)}<br>
         Estimated Returns: ₹${gain.toFixed(0)}<br>
         Final Corpus: <strong>₹${futureValue.toFixed(0)}</strong>
       `;
-      document.getElementById('result').style.display = 'block';
+      resultDiv.classList.add("show");
+      resultDiv.style.display = 'block';
     }
   </script>
 </body>
